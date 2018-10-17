@@ -603,17 +603,15 @@ void rn2xx3::sleep(long msec)
 }
 
 
-String rn2xx3::sendRawCommand(String command)
-{
+String rn2xx3::sendRawCommand(String command){
   delay(100);
+  
   while(_serial.available())
     _serial.read();
   _serial.println(command);
   String ret = _serial.readStringUntil('\n');
   ret.trim();
-
   //TODO: Add debug print
-
   return ret;
 }
 

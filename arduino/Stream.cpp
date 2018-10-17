@@ -37,7 +37,7 @@ int Stream::timedRead()
     if (c >= 0) return c;
   } while(millis() - _startMillis < _timeout);
   return -1;     // -1 indicates timeout
-}
+};
 
 // protected method to peek stream with timeout
 int Stream::timedPeek()
@@ -247,6 +247,7 @@ String Stream::readStringUntil(char terminator)
   int c = timedRead();
   while (c >= 0 && c != terminator)
   {
+      
     ret += (char)c;
     c = timedRead();
   }

@@ -21,7 +21,8 @@
 */
 
 #include "wiring_private.h"
-
+#include <util/delay.h>
+#include <avr/interrupt.h>
 // the prescaler is set so that timer0 ticks every 64 clock cycles, and the
 // the overflow handler is called every 256 ticks.
 #define MICROSECONDS_PER_TIMER0_OVERFLOW (clockCyclesToMicroseconds(64 * 256))
@@ -45,6 +46,7 @@ ISR(TIM0_OVF_vect)
 ISR(TIMER0_OVF_vect)
 #endif
 {
+    
 	// copy these to local variables so they can be stored in registers
 	// (volatile variables must be read from memory on every access)
 	unsigned long m = timer0_millis;
@@ -64,6 +66,7 @@ ISR(TIMER0_OVF_vect)
 
 unsigned long millis()
 {
+    
 	unsigned long m;
 	uint8_t oldSREG = SREG;
 
@@ -72,7 +75,6 @@ unsigned long millis()
 	cli();
 	m = timer0_millis;
 	SREG = oldSREG;
-
 	return m;
 }
 
@@ -103,8 +105,14 @@ unsigned long micros() {
 	return ((m << 8) + t) * (64 / clockCyclesPerMicrosecond());
 }
 
-void delay(unsigned long ms)
-{
+void delay(unsigned long ms){
+    // Had to implement a fix, since delay did not work propperly.
+    /*
+    for(int i = 0; i < ms;i++){
+        _delay_ms(1);
+    }
+    */
+    
 	uint32_t start = micros();
 
 	while (ms > 0) {
@@ -114,6 +122,7 @@ void delay(unsigned long ms)
 			start += 1000;
 		}
 	}
+    
 }
 
 /* Delay for the given number of microseconds.  Assumes a 1, 8, 12, 16, 20 or 24 MHz clock. */
@@ -238,7 +247,7 @@ void delayMicroseconds(unsigned int us)
 	// return = 4 cycles
 }
 
-void init()
+void timer_init()
 {
 	// this needs to be called before setup() or some functions won't
 	// work there
