@@ -15,6 +15,7 @@
 #include "Keypad.h"
 #include "arduino/Arduino.h"
 #include "rn2xx3.h"
+#include "LoRa_config.h"
 #include "arduino/wiring_private.h"
 /* Since FILES, and FDEV doesn't work in C++, a workaround had to be made to enable printf:
    This is considered a bug by the WinAvr team, however has not been fixed.
@@ -33,8 +34,16 @@ extern "C" {
 /*Define Stream for LoRa comms*/
 #define LoRa Serial
 
+void printInt(int i){
+    printf("%d", i);
+};
 
+void(*fcnPtr)(int i) = printInt;
 
+int fisk(int n, void(*f)(int)){
+    f(n);
+    return n;
+}
 
 int main (void){
 	/*INIT*/
@@ -42,15 +51,11 @@ int main (void){
 	USART_init();
     timer_init();
 	LoRa.begin(57600);
-	rn2xx3 test(LoRa);
-	
+    LoRa.flush();
+    rn2xx3 lora(LoRa);
+    String code = String(7020);
 	while(true){
-        delay(800);
-		String fisk = "sys get ver";
-        String Svar = test.sendRawCommand(fisk);
-        printf("%s \n", Svar.c_str());
-
-		
-	}
-
+        lora.sendRawCommand(code); 
+        delay(1000);
+    }
 }

@@ -10,7 +10,7 @@
 #ifndef rn2xx3_h
 #define rn2xx3_h
 
-#include "arduino/Arduino.h"
+#include "Arduino.h"
 
 enum RN2xx3_t {
   RN_NA = 0, // Not set

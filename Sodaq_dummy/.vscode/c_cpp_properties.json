@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:\\Users\\tobiasu\\AppData\\Local\\Arduino15\\packages\\SODAQ\\hardware\\samd\\1.6.18\\**"
+            ],
+            "forcedInclude": [
+                "C:\\Users\\tobiasu\\AppData\\Local\\Arduino15\\packages\\SODAQ\\hardware\\samd\\1.6.18\\cores\\arduino\\Arduino.h"
+            ],
+            "intelliSenseMode": "msvc-x64",
+            "compilerPath": "C:\\Strawberry\\c\\bin\\gcc.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}

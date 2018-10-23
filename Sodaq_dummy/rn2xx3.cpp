@@ -7,7 +7,7 @@
  *
  */
 
-#include "arduino/Arduino.h"
+#include "Arduino.h"
 #include "rn2xx3.h"
 
 extern "C" {

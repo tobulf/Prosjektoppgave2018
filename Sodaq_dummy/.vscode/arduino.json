@@ -1,0 +1,6 @@
+{
+    "board": "SODAQ:samd:sodaq_one",
+    "sketch": "Sodaq_dummy.ino",
+    "output": "../build",
+    "port": "COM7"
+}
