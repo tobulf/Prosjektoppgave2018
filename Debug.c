@@ -7,8 +7,14 @@
 
 
 #include "Debug.h"
-#define  F_CPU 16000000L
-#define DEBUG_BAUD 9600UL
+
+#ifndef F_CPU
+	#define F_CPU 12000000UL
+#endif
+
+#ifndef DEBUG_BAUD
+	#define DEBUG_BAUD 9600UL
+#endif
 
 
 int USART_TRANSMIT_printf(char var, FILE *stream) {
@@ -53,7 +59,7 @@ void  USART_putstring(char *string){
 
 
 
-void USART_init(){
+void USART_init(unsigned int BR){
 	// Calculate ubbr:
 	unsigned int ubrr =(F_CPU / (16*DEBUG_BAUD))-1U;
 	/*Set baud rate */

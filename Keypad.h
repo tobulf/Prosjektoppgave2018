@@ -22,11 +22,20 @@ enum button {NOTHING=-1, ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, N
 
 class Keypad{
 private:
+    /*Due to an error in reading the datasheet, the matrix is a mirrored self:
+    // Original:
     int button_matrix[4][3] = {
 	{ONE,     TWO,   THREE} ,
 	{FOUR,    FIVE,  SIX}   ,
 	{SEVEN,   EIGHT, NINE}  ,
 	{ASTERIX, ZERO,  SQUARE}
+    };*/
+    // Mirrored:
+    int button_matrix[4][3] = {
+    {SQUARE, ZERO,  ASTERIX},
+    {NINE,   EIGHT, SEVEN}  ,
+    {SIX,    FIVE,  FOUR}   ,
+	{THREE,     TWO,   ONE}
     };
     int value;
 public:

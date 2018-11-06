@@ -7,9 +7,51 @@
 
 
 #include "LED_driver.h"
+#include <util/delay.h>
+
+/* Handy macros: */
+#define set_bit(reg, bit ) (reg |= (1 << bit))
+#define clear_bit(reg, bit ) (reg &= ~(1 << bit))
+#define test_bit(reg, bit ) (reg & (1 << bit))
+
+
+
+LED_driver::LED_driver(/* args */){
+    /*Set Pin 0 to 2 to output: */
+    DDRA = (1<<DDB0)|(1<<DDB1)|(1<<DDB2);
+    /*Set all pins Low*/
+    clear_bit(PORTA, 0); clear_bit(PORTA, 1); clear_bit(PORTA, 2); 
+}
+
+
+
+void LED_driver::toogle_led(led color){
+    
+    switch (color){
+        case GREEN:
+            PORTA ^= (1 << GREEN);
+            break;
+        
+        case RED:
+            PORTA ^= (1 << RED);
+            break;
+
+        case YELLOW:
+            PORTA ^= (1 << YELLOW);
+            break;
+
+        default:
+            break;
+    }
+};
 
 
 
 
-
-
+void LED_driver::timed_toogle_led(led color, int ms){
+    toogle_led(color);
+    for(int n = 0; n < ms; n++){
+        _delay_ms(1);
+    }
+    toogle_led(color);
+};

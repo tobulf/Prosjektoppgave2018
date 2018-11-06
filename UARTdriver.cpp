@@ -32,8 +32,8 @@ unsigned char* LoRa_COM::get_answer(void){
 	 uint8_t i = 0;
 	 /*receive bytes and put them in a string: */
 	 while( (byte = receive()) >= LF ){
-		 /*CR and LF termination: */
-		if(byte == LF || byte == CR){
+		 /*LF termination: */
+		if(byte == LF){
 			break;
 		}
 		/* Merge the bytes together to a string: */
@@ -49,7 +49,8 @@ void LoRa_COM::put_command(char* string){
 	for(; *string; ++string){
 		transmit(*string);
 	}
-	/*Terminate using LF*/
+	/*Terminate using CR-LF*/
+	transmit(CR);
 	transmit(LF);
 };
 
@@ -91,6 +92,8 @@ void PHERIPHERAL_COM::putstring(char *string){
 	for(; *string; ++string){
 		transmit(*string);
 	}
+	/*Terminate using CR-LF*/
+	transmit(CR);
 	transmit(LF);
 };
 

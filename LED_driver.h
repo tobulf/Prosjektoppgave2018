@@ -12,6 +12,19 @@
 #include <util/delay.h>
 #include <avr/io.h>
 
+enum led {YELLOW = 0, GREEN, RED};
+
+
+class LED_driver
+{
+private:
+    /* data */
+public:
+    LED_driver();
+    void timed_toogle_led(led color, int ms);
+    void toogle_led(led color);
+};
+
 
 
 

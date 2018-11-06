@@ -1,7 +1,6 @@
 #include "Arduino.h"
 #include "Stream.h"
 #include "rn2xx3.h"
-#include "LoRa_config.h"
 #include <stdio.h>
 #define LoRa Serial1
 #define UART SerialUSB
@@ -38,29 +37,29 @@ void setup() {
 }
 
 void loop() {
+    //UART.print("HERRO!");
+    const char *appeui = "70B3D57ED0013824";
+    const char *appkey = "0222B8B8AE6A77BE0C040ABF13B8E8E7";
     rn2xx3 lorawan(LoRa);
     bool joined = false;
-	joined = lorawan.initOTAA(appEui, appKey);
+	joined = lorawan.initOTAA(appeui, appkey);
     // Set data-rate to SF7/125kHz. See. Lorawan regional paramaeters p. 16.
     lorawan.setDR(5);
+    UART.print("Initialized");
     while(joined){
-        String msg = receiveRawCommand(ATMEGA);
+        String msg = "7020";//receiveRawCommand(ATMEGA);
         int n;
+        delay(1000);
         if(msg.length()>3){
             sscanf(msg.c_str(),"%d", &n);
             unsigned char ta[2];
             ta[0] = (unsigned char)(n>>8);
             ta[1] = (unsigned char)n;
             lorawan.txBytes(&ta[0], 2);
+            //UART.print(test);
             }
         }
-
-
-
-   
-
-    
-
+}
 
 
     /*
@@ -85,7 +84,7 @@ void loop() {
             UART.write('\n');
     }
     */
-}
+
 
 
 
