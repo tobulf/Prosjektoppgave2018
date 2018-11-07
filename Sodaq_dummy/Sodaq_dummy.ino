@@ -49,6 +49,7 @@ void loop() {
     while(joined){
         String msg = "7020";//receiveRawCommand(ATMEGA);
         int n;
+        String answer;
         delay(1000);
         if(msg.length()>3){
             sscanf(msg.c_str(),"%d", &n);
@@ -56,7 +57,7 @@ void loop() {
             ta[0] = (unsigned char)(n>>8);
             ta[1] = (unsigned char)n;
             lorawan.txBytes(&ta[0], 2);
-            //UART.print(test);
+            answer = lorawan.getRx();
             }
         }
 }

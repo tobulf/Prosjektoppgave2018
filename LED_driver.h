@@ -21,8 +21,8 @@ private:
     /* data */
 public:
     LED_driver();
-    void timed_toogle_led(led color, int ms);
-    void toogle_led(led color);
+    void timed_toogle(led color, int ms);
+    void toogle(led color);
 };
 
 

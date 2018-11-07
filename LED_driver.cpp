@@ -25,7 +25,7 @@ LED_driver::LED_driver(/* args */){
 
 
 
-void LED_driver::toogle_led(led color){
+void LED_driver::toogle(led color){
     
     switch (color){
         case GREEN:
@@ -48,10 +48,10 @@ void LED_driver::toogle_led(led color){
 
 
 
-void LED_driver::timed_toogle_led(led color, int ms){
-    toogle_led(color);
+void LED_driver::timed_toogle(led color, int ms){
+    toogle(color);
     for(int n = 0; n < ms; n++){
         _delay_ms(1);
     }
-    toogle_led(color);
+    toogle(color);
 };
