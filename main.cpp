@@ -54,21 +54,16 @@ int fisk(int n, void(*f)(int)){
 */
 int main (void){
 	/*INIT*/
-	LoRa shit(Serial);
 	timer_init();
 	Keypad keypad;
 	USART_init();
     timer_init();
 	LED_driver leds;
-	
-	
+	Serial.begin(57600);
+	Serial.flush();
+	rn2xx3 obj(Serial);
+	LoRa COM(obj);
 	while(true){
-		//String answer = lorawan.sendRawCommand("sys get ver");
-		//printf("%s",answer.c_str());
-		_delay_ms(1000);
-		String msg = "7020";//receiveRawCommand(ATMEGA);
-		leds.timed_toogle(GREEN, 1000);
-		
 	}
 	
 }

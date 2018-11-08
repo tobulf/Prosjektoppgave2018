@@ -13,15 +13,12 @@
 
 
 
-LoRa::LoRa(Stream& serial){
-    _serial(serial)
-    _serial.begin(57600);
-	_serial.flush();
-    RN2483(serial);
+LoRa::LoRa(rn2xx3& com){
+    _LoRa = com;
 	connected = false;
-	connected = RN2483.initOTAA(appEui, appKey);
+	connected = _LoRa.initOTAA(appEui, appKey);
 	// Set data-rate to SF7/125kHz. See. Lorawan regional paramaeters p. 16.
-	RN2483.setDR(5);
+	_LoRa.setDR(5);
 };
 
 String LoRa::send_receive(String msg){
@@ -32,11 +29,12 @@ String LoRa::send_receive(String msg){
 		unsigned char ta[2];
 		ta[0] = (unsigned char)(n>>8);
 		ta[1] = (unsigned char)n;
-		lorawan.txBytes(&ta[0], 2);
-		answer = lorawan.getRx();
+		_LoRa.txBytes(&ta[0], 2);
+		answer = _LoRa.getRx();
         return answer;
 	}
     else{
+		
         return answer;
     }
 };

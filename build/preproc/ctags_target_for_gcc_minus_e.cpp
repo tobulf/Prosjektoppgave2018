@@ -51,15 +51,13 @@ void loop() {
     while(joined){
         String msg = "7020";//receiveRawCommand(ATMEGA);
         int n;
-        String answer;
-        delay(1000);
+        delay(10000);
         if(msg.length()>3){
             sscanf(msg.c_str(),"%d", &n);
             unsigned char ta[2];
             ta[0] = (unsigned char)(n>>8);
             ta[1] = (unsigned char)n;
             lorawan.txBytes(&ta[0], 2);
-            answer = lorawan.getRx();
             }
         }
 }
@@ -108,7 +106,7 @@ void loop() {
     }
 
     */
-# 93 "c:\\Users\\tobiasu\\Documents\\Atmel Studio\\7.0\\TTK8-C++\\TTK8-C++\\Sodaq_dummy\\Sodaq_dummy.ino"
+# 91 "c:\\Users\\tobiasu\\Documents\\Atmel Studio\\7.0\\TTK8-C++\\TTK8-C++\\Sodaq_dummy\\Sodaq_dummy.ino"
 // First try, before porting Arduiono code to the atmega.
 /*
 

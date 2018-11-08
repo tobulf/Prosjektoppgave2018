@@ -20,12 +20,11 @@
 class LoRa{
 
 public:
-    LoRa(Stream& serial);
+    LoRa(rn2xx3& com);
     String send_receive(String msg);
     
 private:
-    Stream& _serial;
-    rn2xx3 RN2483;
+    rn2xx3& _LoRa;
     bool connected;
 };
 

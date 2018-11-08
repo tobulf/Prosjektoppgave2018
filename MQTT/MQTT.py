@@ -1,13 +1,19 @@
 from ttn import*
 from time import sleep
+from datetime import datetime
 from base64 import*
+from threading import*
+from Logger import WriteMetaToFile
 import json
 
-access_key = "ttn-account-v2.xPTndt8DMHEw2PVy5lm9nq2CPEQaixaGFGM4ODnMEt8"
+access_key = "ttn-account-v2.wgnue4Mnikv-AdVHu0qfFM56FtSVcFvZRqVWFIZP08s"
 app_id = "lorakeypad"
-dev_id = "keypad"
+
 
 Database = [7020, 2012, 7063, 7568 ,1569]
+Start_date = datetime.now()
+date = str(Start_date.day)+"." + str(Start_date.month)+"." + str(Start_date.year)
+
 
 
 
@@ -19,12 +25,13 @@ def check_code(code, list):
 
 
 def uplink_callback(msg, client):
+    global date
     print("Received uplink from ", msg.dev_id)
+    #Convert received data to int:
     code = int.from_bytes(b64decode(msg.payload_raw), byteorder = 'big')
-    
     meta = msg.metadata
-    print(json.dumps(meta))
-    print(len(meta[6]))
+    # Log the metadata to file.
+    WriteMetaToFile(msg.dev_id, meta, date)
     #Check-code
     if check_code(code, Database):
         print("code found: ", code)
@@ -48,8 +55,9 @@ my_app = mqtt_application.get()
 print(my_app)
 my_devices = mqtt_application.devices()
 print(my_devices)
+
+
 while True:
-    
     pass
 
 mqtt_client.close()
