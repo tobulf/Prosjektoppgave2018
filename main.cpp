@@ -55,6 +55,8 @@ int fisk(int n, void(*f)(int)){
 */
 
 int main (void){
+	/* Switch this value to false, to enter keypad-mode: */
+	bool datacollecting = true;
 	/*INIT*/
 	timer_init();
 	Keypad keypad;
@@ -65,20 +67,40 @@ int main (void){
 	Serial.flush();
 	rn2xx3 COM(Serial);
 	bool connected = LoRa_init(COM, appEui, appKey);
-
-
-    /* Declare global variables: */
-    int current_state = IDLE;
-    int prev_state = IDLE;
-    int prev_pressed, current_pressed;
-    String temp = "";
-    unsigned long timeout = 10000;
-    unsigned long time; // = millis();
-    leds.reset();
-    leds.toogle(GREEN); 
-    leds.toogle(YELLOW);
+	// Timer timeout and variable:
+	unsigned long timeout = 10000;
+	unsigned long time = 0; // = millis();
+	unsigned long time1= 0;
+	// Set Red and green, to indicate that it is in dataCollect.
+	leds.reset();
+	leds.toogle(GREEN);
+	leds.toogle(RED);
+	
+	while(datacollecting){
+		if((millis()-time) > 30000){
+			
+			byte end = 0b00000010;
+			COM.txBytes(&end, 1);
+			leds.toogle(YELLOW);
+			time = millis();
+		}
+		if((millis()-time1) > 1000){
+			leds.toogle(YELLOW);
+			time1 = millis();
+		}
+	}
+	
+	/* Declare global variables: */
+	int current_state = IDLE;
+	int prev_state = IDLE;
+	int prev_pressed, current_pressed;
+	String temp = "";
+	leds.reset();
+	leds.toogle(GREEN);
+	leds.toogle(YELLOW);
+	timeout = 10000;
     /* Main Function and statemachine: */
-	while(true){
+	while(!datacollecting){
         // For every cycle: update keypad.
         keypad.poll();
         current_pressed = keypad.get_value();
@@ -121,7 +143,7 @@ int main (void){
                 };
                 break;
 
-                
+
             case BUSY:
                     if(prev_state == POLLING){
                         // If the length of entered code is 4, then check database:
@@ -132,6 +154,7 @@ int main (void){
                             printf("%s", temp.c_str());
                             String answer = LoRa_send_receive(COM, temp);
                             sscanf(answer.c_str(), "%X",&num);
+                            
                             // 0x59 is hex for "Y":
                             if(num == 0x59){
                                 leds.toogle(GREEN);
@@ -157,6 +180,8 @@ int main (void){
                         }
                     }
                     else if(prev_state == BUSY && (millis()-time)>5000){
+                        // Reset temp:
+                        temp = "";
                         leds.reset();
                         leds.toogle(GREEN); 
                         leds.toogle(YELLOW);

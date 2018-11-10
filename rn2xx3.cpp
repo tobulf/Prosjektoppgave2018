@@ -344,6 +344,22 @@ TX_RETURN_TYPE rn2xx3::txBytes(const byte* data, uint8_t size)
   return txCommand("mac tx uncnf 1 ", dataToTx, false);
 }
 
+
+// Extending the class with this functionality:
+TX_RETURN_TYPE rn2xx3::txCnfBytes(const byte* data, uint8_t size)
+{
+  char msgBuffer[size*2 + 1];
+
+  char buffer[3];
+  for (unsigned i=0; i<size; i++)
+  {
+    sprintf(buffer, "%02X", data[i]);
+    memcpy(&msgBuffer[i*2], &buffer, sizeof(buffer));
+  }
+  String dataToTx(msgBuffer);
+  return txCommand("mac tx cnf 1 ", dataToTx, false);
+}
+
 TX_RETURN_TYPE rn2xx3::txCnf(String data)
 {
   return txCommand("mac tx cnf 1 ", data, true);

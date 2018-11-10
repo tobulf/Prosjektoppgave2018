@@ -30,17 +30,20 @@ def uplink_callback(msg, client):
     #Convert received data to int:
     code = int.from_bytes(b64decode(msg.payload_raw), byteorder = 'big')
     meta = msg.metadata
-    # Log the metadata to file.
-    WriteMetaToFile(msg.dev_id, meta, date)
+    # if it is bullshit value:
+    if code == 2:
+        pass
     #Check-code
-    if check_code(code, Database):
+    elif check_code(code, Database):
         print("code found: ", code)
         payload = b64encode("Y".encode()).decode("utf-8")
-        client.send(msg.dev_id, str(payload), port=1, conf=True, sched="first")
+        client.send(msg.dev_id, payload, port=1, conf=False, sched="first")
     else: 
         print("code not found : ", code)
         payload = b64encode("N".encode()).decode("utf-8")
-        client.send(msg.dev_id, payload, conf=True, sched="first")
+        client.send(msg.dev_id, payload, port=1, conf=False, sched="first")
+    # Log the metadata to file.
+    WriteMetaToFile(msg.dev_id, meta, date)
 
 handler = HandlerClient(app_id, access_key,discovery_address="discovery.thethings.network:1900")
 

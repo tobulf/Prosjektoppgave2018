@@ -153,6 +153,13 @@ class rn2xx3
      */
     TX_RETURN_TYPE txBytes(const byte*, uint8_t);
 
+
+    /*
+    * Same functionality as txBytes, only with confirmation.
+    */
+
+    TX_RETURN_TYPE txCnfBytes(const byte* data, uint8_t size);
+
     /*
      * Do a confirmed transmission via LoRa WAN.
      *
