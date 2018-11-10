@@ -17,6 +17,7 @@
 #include "UARTdriver.h"
 
 
+
 enum button {NOTHING=-1, ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, ASTERIX=42, SQUARE=35};
 
 
@@ -38,12 +39,13 @@ private:
 	{THREE,     TWO,   ONE}
     };
     int value;
+	bool pressed;
 public:
-    bool pressed;
     Keypad();
     bool poll_row(int row);
     void poll();
     int get_value();
+	bool is_pressed();
 };
 
 

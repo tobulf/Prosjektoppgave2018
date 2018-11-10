@@ -21,8 +21,15 @@ LED_driver::LED_driver(/* args */){
     DDRA = (1<<DDB0)|(1<<DDB1)|(1<<DDB2);
     /*Set all pins Low*/
     clear_bit(PORTA, 0); clear_bit(PORTA, 1); clear_bit(PORTA, 2); 
-}
+};
 
+
+void LED_driver::reset(){
+	PORTA &= ~(1 << GREEN);
+	PORTA &= ~(1 << RED);
+	PORTA &= ~(1 << YELLOW);
+	
+};
 
 
 void LED_driver::toogle(led color){

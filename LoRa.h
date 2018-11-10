@@ -11,26 +11,15 @@
 
 
 #include "rn2xx3.h"
-#include "LoRa_config.h"
 #include "arduino/Arduino.h"
 #include <stdbool.h>
 
 
 
-class LoRa{
 
-public:
-    LoRa(rn2xx3& com);
-    String send_receive(String msg);
-    
-private:
-    rn2xx3& _LoRa;
-    bool connected;
-};
+String LoRa_send_receive(rn2xx3& RN2483,String msg);
 
-
-
-
+bool LoRa_init(rn2xx3& RN2483, const char* Eui, const char* Key);
 
 
 

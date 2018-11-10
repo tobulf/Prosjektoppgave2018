@@ -23,6 +23,7 @@ public:
     LED_driver();
     void timed_toogle(led color, int ms);
     void toogle(led color);
+	void reset();
 };
 
 

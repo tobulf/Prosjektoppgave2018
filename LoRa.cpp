@@ -9,19 +9,17 @@
 #include "LoRa.h"
 
 
-/*Define Stream for LoRa comms*/
 
-
-
-LoRa::LoRa(rn2xx3& com){
-    _LoRa = com;
-	connected = false;
-	connected = _LoRa.initOTAA(appEui, appKey);
+bool LoRa_init(rn2xx3& RN2483, const char* Eui, const char* Key){
+	bool connected = false;
+	connected = RN2483.initOTAA(Eui, Key);
 	// Set data-rate to SF7/125kHz. See. Lorawan regional paramaeters p. 16.
-	_LoRa.setDR(5);
+	RN2483.setDR(5);
+	return connected;
 };
 
-String LoRa::send_receive(String msg){
+
+String LoRa_send_receive(rn2xx3& RN2483,String msg){
     int n;
     String answer;
 	if(msg.length()>3){
@@ -29,8 +27,8 @@ String LoRa::send_receive(String msg){
 		unsigned char ta[2];
 		ta[0] = (unsigned char)(n>>8);
 		ta[1] = (unsigned char)n;
-		_LoRa.txBytes(&ta[0], 2);
-		answer = _LoRa.getRx();
+		RN2483.txBytes(&ta[0], 2);
+		answer = RN2483.getRx();
         return answer;
 	}
     else{

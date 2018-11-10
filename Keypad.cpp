@@ -84,4 +84,8 @@ void Keypad::poll(){
 int Keypad::get_value(){
 	return value;
 };
+
+bool Keypad::is_pressed(){
+	return pressed;
+};
 	
