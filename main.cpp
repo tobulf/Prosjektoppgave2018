@@ -55,8 +55,6 @@ int fisk(int n, void(*f)(int)){
 */
 
 int main (void){
-	/* Switch this value to false, to enter keypad-mode: */
-	bool datacollecting = true;
 	/*INIT*/
 	timer_init();
 	Keypad keypad;
@@ -67,6 +65,20 @@ int main (void){
 	Serial.flush();
 	rn2xx3 COM(Serial);
 	bool connected = LoRa_init(COM, appEui, appKey);
+	if(connected){
+		leds.toogle(GREEN);
+		_delay_ms(3000);
+	}
+	else if(!connected){
+		leds.toogle(RED);
+		_delay_ms(3000);
+	}
+	//Select Mode:
+	bool datacollecting = false;
+	keypad.poll();
+	if(keypad.get_value() == SQUARE){
+		datacollecting = true;
+		};
 	// Timer timeout and variable:
 	unsigned long timeout = 10000;
 	unsigned long time = 0; // = millis();
