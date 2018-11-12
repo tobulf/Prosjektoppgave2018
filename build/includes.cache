@@ -2,20 +2,20 @@
   {
     "Sourcefile": "",
     "Include": "",
-    "Includepath": "C:\\Users\\tobiasu\\AppData\\Local\\Arduino15\\packages\\SODAQ\\hardware\\samd\\1.6.18\\cores\\arduino"
+    "Includepath": "C:\\Users\\Tobias\\AppData\\Local\\Arduino15\\packages\\SODAQ\\hardware\\samd\\1.6.18\\cores\\arduino"
   },
   {
     "Sourcefile": "",
     "Include": "",
-    "Includepath": "C:\\Users\\tobiasu\\AppData\\Local\\Arduino15\\packages\\SODAQ\\hardware\\samd\\1.6.18\\variants\\sodaq_one"
+    "Includepath": "C:\\Users\\Tobias\\AppData\\Local\\Arduino15\\packages\\SODAQ\\hardware\\samd\\1.6.18\\variants\\sodaq_one"
   },
   {
-    "Sourcefile": "c:\\Users\\tobiasu\\Documents\\Atmel Studio\\7.0\\TTK8-C++\\TTK8-C++\\build\\sketch\\Sodaq_dummy.ino.cpp",
+    "Sourcefile": "c:\\Users\\Tobias\\Documents\\Git\\TTK8-C++\\build\\sketch\\Sodaq_dummy.ino.cpp",
     "Include": "",
     "Includepath": ""
   },
   {
-    "Sourcefile": "c:\\Users\\tobiasu\\Documents\\Atmel Studio\\7.0\\TTK8-C++\\TTK8-C++\\build\\sketch\\rn2xx3.cpp",
+    "Sourcefile": "c:\\Users\\Tobias\\Documents\\Git\\TTK8-C++\\build\\sketch\\rn2xx3.cpp",
     "Include": "",
     "Includepath": ""
   }

@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Arduino/Arduino.h"
+#include "arduino/Arduino.h"
 
 /* Comms to LoRa Chip:*/
 

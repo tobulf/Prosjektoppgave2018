@@ -3,10 +3,13 @@
         {
             "name": "Win32",
             "includePath": [
+                "C:\\Users\\Tobias\\AppData\\Local\\Arduino15\\packages\\SODAQ\\hardware\\samd\\1.6.18\\**",
+                "C:\\Users\\Tobias\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\**",
+                "C:\\Users\\Tobias\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\samd\\1.6.19\\**",
                 "C:\\Users\\tobiasu\\AppData\\Local\\Arduino15\\packages\\SODAQ\\hardware\\samd\\1.6.18\\**"
             ],
             "forcedInclude": [
-                "C:\\Users\\tobiasu\\AppData\\Local\\Arduino15\\packages\\SODAQ\\hardware\\samd\\1.6.18\\cores\\arduino\\Arduino.h"
+                "C:\\Users\\Tobias\\AppData\\Local\\Arduino15\\packages\\SODAQ\\hardware\\samd\\1.6.18\\cores\\arduino\\Arduino.h"
             ],
             "intelliSenseMode": "msvc-x64",
             "compilerPath": "C:\\Strawberry\\c\\bin\\gcc.exe",

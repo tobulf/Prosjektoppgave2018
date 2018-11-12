@@ -61,6 +61,10 @@ print(my_devices)
 
 
 while True:
+    if(Start_date.day != datetime.now().day):
+        Start_date = datetime.now()
+        date = str(Start_date.day)+"." + str(Start_date.month)+"." + str(Start_date.year)
+        print("New Day!")
     pass
 
 mqtt_client.close()

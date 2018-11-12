@@ -55,8 +55,6 @@ int fisk(int n, void(*f)(int)){
 */
 
 int main (void){
-	/* Switch this value to false, to enter keypad-mode: */
-	bool datacollecting = true;
 	/*INIT*/
 	timer_init();
 	Keypad keypad;
@@ -67,6 +65,20 @@ int main (void){
 	Serial.flush();
 	rn2xx3 COM(Serial);
 	bool connected = LoRa_init(COM, appEui, appKey);
+	if(connected){
+		leds.toogle(GREEN);
+		_delay_ms(3000);
+	}
+	else if(!connected){
+		leds.toogle(RED);
+		_delay_ms(3000);
+	}
+	//Select Mode:
+	bool datacollecting = false;
+	keypad.poll();
+	if(keypad.get_value() == SQUARE){
+		datacollecting = true;
+		};
 	// Timer timeout and variable:
 	unsigned long timeout = 10000;
 	unsigned long time = 0; // = millis();
@@ -77,11 +89,15 @@ int main (void){
 	leds.toogle(RED);
 	
 	while(datacollecting){
-		if((millis()-time) > 30000){
-			
+		keypad.poll();
+		if((millis()-time) > 30000 || keypad.get_value() == ASTERIX){
 			byte end = 0b00000010;
-			COM.txBytes(&end, 1);
-			leds.toogle(YELLOW);
+			for(int i = 0; i<5;i++){
+				COM.setDR(i);
+				//Send in different data modes:
+				COM.txBytes(&end, 1);
+				_delay_ms(1000);
+			}
 			time = millis();
 		}
 		if((millis()-time1) > 1000){
@@ -99,6 +115,7 @@ int main (void){
 	leds.toogle(GREEN);
 	leds.toogle(YELLOW);
 	timeout = 10000;
+	COM.setDR(5);
     /* Main Function and statemachine: */
 	while(!datacollecting){
         // For every cycle: update keypad.
