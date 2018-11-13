@@ -9,7 +9,6 @@ import json
 access_key = "ttn-account-v2.wgnue4Mnikv-AdVHu0qfFM56FtSVcFvZRqVWFIZP08s"
 app_id = "lorakeypad"
 
-
 Database = [7020, 2012, 7063, 7568 ,1569]
 Start_date = datetime.now()
 date = str(Start_date.day)+"." + str(Start_date.month)+"." + str(Start_date.year)
@@ -25,11 +24,13 @@ def check_code(code, list):
 
 
 def uplink_callback(msg, client):
-    global date
+    global date, meta_test
     print("Received uplink from ", msg.dev_id)
     #Convert received data to int:
     code = int.from_bytes(b64decode(msg.payload_raw), byteorder = 'big')
     meta = msg.metadata
+    # Log the metadata to file.
+    WriteMetaToFile(msg.dev_id, meta, date)
     # if it is bullshit value:
     if code == 2:
         pass
@@ -42,8 +43,7 @@ def uplink_callback(msg, client):
         print("code not found : ", code)
         payload = b64encode("N".encode()).decode("utf-8")
         client.send(msg.dev_id, payload, port=1, conf=False, sched="first")
-    # Log the metadata to file.
-    WriteMetaToFile(msg.dev_id, meta, date)
+    
 
 handler = HandlerClient(app_id, access_key,discovery_address="discovery.thethings.network:1900")
 
