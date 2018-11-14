@@ -1,7 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from json import loads
+<<<<<<< HEAD
 from datetime import datetime, timedelta
+=======
+from datetime import datetime
+>>>>>>> 1ee4d67428023ae9257e52342455c0bf8baba829
 import dateutil.parser
 
 
@@ -11,6 +15,7 @@ gateway = "trt-olav-loragw01"
  
 somedate = datetime
 
+<<<<<<< HEAD
 Datarates = ["SF12BW125", "SF11BW125", "SF10BW125","SF9BW125", "SF8BW125", "SF7BW125"]
 
 
@@ -52,6 +57,9 @@ def insertion_sort(arr, arr2, arr3):
         arr2 = arr2[:j] + [val2] + arr2[j:i] + arr2[i+1:]
         arr3 = arr3[:j] + [val3] + arr3[j:i] + arr3[i+1:]   
     return arr, arr2, arr3
+=======
+Datarates = ["SF12BW125", "SF11BW125", "SF9BW125", "SF8BW125", "SF7BW125"]
+>>>>>>> 1ee4d67428023ae9257e52342455c0bf8baba829
 
 
 def MetadataListFromLog(dev_id, gateway, date):
@@ -70,21 +78,31 @@ def MetadataListFromLog(dev_id, gateway, date):
 
 
 def MakeArrays(metadatalist):
+<<<<<<< HEAD
     # Takes in metadatalist, returns:
     DRarray = []
     # Time array is filled with datetime objects.
+=======
+    # Takes in metadatalist, returns 
+    DRarray = []
+>>>>>>> 1ee4d67428023ae9257e52342455c0bf8baba829
     timearray = []
     rssiarray = []
     snrarray = []
     for i in range(len(metadatalist)):
+<<<<<<< HEAD
         for n in range(len(Datarates)):
             if Datarates[n] == metadatalist[i][0]:
                 DRarray.append(n)
+=======
+        DRarray.append(metadatalist[i][0])
+>>>>>>> 1ee4d67428023ae9257e52342455c0bf8baba829
         timearray.append(dateutil.parser.parse(metadatalist[i][3]))
         rssiarray.append(metadatalist[i][5])
         snrarray.append(metadatalist[i][6])
     return DRarray, timearray, rssiarray, snrarray
 
+<<<<<<< HEAD
 def GetMean(IntegerList):
     temp = 0
     for i in range(len(IntegerList)):
@@ -147,15 +165,30 @@ def PlotMeanDR(x, y, DR):
 
 
 something = MetadataListFromLog("keypad", gateway , date)
+=======
+
+def PlotFigures(x, y):
+    x = np.array(x)
+    y = np.array(y)
+    plt.plot(x,y)
+    plt.show()
+
+
+something = MetadataListFromLog("keypad",gateway , date)
+>>>>>>> 1ee4d67428023ae9257e52342455c0bf8baba829
 
 yourdate = dateutil.parser.parse(something[0][3])
 
 a,b,c,d = MakeArrays(something)
+<<<<<<< HEAD
 some = b[2]-b[1]
 some1 = b[3]-b[2]
 #PlotRSSI_SNR(b,c,a, "Time", "RSSI dBm", "hello")
 
 PlotMeanDR(b, c, a)
+=======
+PlotFigures(b,d)
+>>>>>>> 1ee4d67428023ae9257e52342455c0bf8baba829
 #meta Format ["trt-vm-loragw01", True, 1040756148, "2018-11-08T11:39:10Z", 0, -120, -8.75, 1, 63.42883, 10.385698, 20]
 
 
