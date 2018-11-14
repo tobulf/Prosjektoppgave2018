@@ -6,7 +6,7 @@ from threading import*
 from Logger import WriteMetaToFile
 import json
 
-access_key = "ttn-account-v2.wgnue4Mnikv-AdVHu0qfFM56FtSVcFvZRqVWFIZP08s"
+access_key = "ttn-account-v2.aRPeVS4L6vmEoR-vTlcoIC9mfyOuAQBHLAPO6-1AL8c"
 app_id = "lorakeypad"
 
 Database = [7020, 2012, 7063, 7568 ,1569]
@@ -25,7 +25,7 @@ def check_code(code, list):
 
 def uplink_callback(msg, client):
     global date, meta_test
-    print("Received uplink from ", msg.dev_id)
+    print("Received uplink from ", msg.dev_id, datetime.now())
     #Convert received data to int:
     code = int.from_bytes(b64decode(msg.payload_raw), byteorder = 'big')
     meta = msg.metadata
