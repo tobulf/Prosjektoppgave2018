@@ -6,7 +6,7 @@ from threading import*
 from Logger import WriteMetaToFile
 import json
 
-access_key = "ttn-account-v2.aRPeVS4L6vmEoR-vTlcoIC9mfyOuAQBHLAPO6-1AL8c"
+access_key = "ttn-account-v2.uz4EG00rEfKFu25fa7to4_wsGAzxqfmLfYHoUz0GahM"
 app_id = "lorakeypad"
 
 Database = [7020, 2012, 7063, 7568 ,1569]
