@@ -30,7 +30,7 @@ def WriteMetaToFile(dev_id, Metadata, date):
 
 
 
-'''
+
 some_date = "10.11.2018"
 #Metadata format:
 
@@ -44,4 +44,3 @@ meta = ["2018-11-08T11:41:52.772067729Z", 868.1, "LORA", "SF12BW125", 1155072000
 ]
 
 WriteMetaToFile("lorakeypad",meta, some_date)
-'''
