@@ -1,11 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from json import loads
-<<<<<<< HEAD
 from datetime import datetime, timedelta
-=======
-from datetime import datetime
->>>>>>> 1ee4d67428023ae9257e52342455c0bf8baba829
 import dateutil.parser
 
 

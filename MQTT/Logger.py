@@ -3,11 +3,12 @@ from json import dumps
 
 
 
-current_directory = os.getcwd()
+
 
 
 
 def WriteMetaToFile(dev_id, Metadata, date):
+    current_directory = os.getcwd()
     #Create directory for each day
     directory = 'Logs '+str(dev_id)
     final_directory = os.path.join(current_directory, (r''+directory))
@@ -15,18 +16,18 @@ def WriteMetaToFile(dev_id, Metadata, date):
         os.makedirs(final_directory)
     for i in range(len(Metadata[6])):
         temp = list(Metadata[6][i])
+        # Save datarate instead of the name of the Gateway:
+        temp[0] = Metadata[3]
         try:
-            Log = open(directory+"/"+str(Metadata[6][i][0])+" "+date+".txt",'x')
-            # Save datarate instead of the name of the Gateway:
-            temp[0] = Metadata[3]
-            Log.write(dumps(temp)+"\n")
-            Log.close()
-        except OSError:
-            Log = open(directory+"/"+str(Metadata[6][i][0])+" "+date+".txt",'a')
-            # Save datarate instead of the name of the Gateway:
-            temp[0] = Metadata[3]
-            Log.write(dumps(temp)+"\n")
-            Log.close()
+            with open(directory+"/"+str(Metadata[6][i][0])+" "+date+".txt",'x') as Log:
+                Log.write(dumps(temp)+"\n")
+                
+        except FileExistsError:
+            with open(directory+"/"+str(Metadata[6][i][0])+" "+date+".txt",'a') as Log:
+                Log.write(dumps(temp)+"\n")
+
+
+
 
 
 
