@@ -40,9 +40,9 @@ private:
     };
     int value;
 	bool pressed;
+	bool poll_row(int row);
 public:
     Keypad();
-    bool poll_row(int row);
     void poll();
     int get_value();
 	bool is_pressed();

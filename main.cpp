@@ -64,12 +64,15 @@ int main (void){
 	Serial.begin(57600);
 	Serial.flush();
 	rn2xx3 COM(Serial);
+	leds.toogle(YELLOW);
 	bool connected = LoRa_init(COM, appEui, appKey);
 	if(connected){
+		leds.toogle(YELLOW);
 		leds.toogle(GREEN);
 		_delay_ms(3000);
 	}
 	else if(!connected){
+		leds.toogle(YELLOW);
 		leds.toogle(RED);
 		_delay_ms(3000);
 	}
@@ -90,25 +93,44 @@ int main (void){
 	
 	while(datacollecting){
 		keypad.poll();
-		if((millis()-time) > 30000 || keypad.get_value() == ASTERIX){
-			byte end = 0b00000010;
-			for(int i = 0; i<5;i++){
-				COM.setDR(i);
-				//Send in different data modes:
-				COM.txBytes(&end, 1);
-				_delay_ms(1000);
-			}
+		int value = keypad.get_value();
+		byte end = 0b00000010;
+		if ((millis()-time) > 1000){
+			leds.toogle(YELLOW);
 			time = millis();
 		}
-		if((millis()-time1) > 1000){
-			leds.toogle(YELLOW);
-			time1 = millis();
-		}
+		switch (value){
+			case ONE:
+				COM.setDR(0);
+				COM.txBytes(&end,1);
+				break;
+			case TWO:
+				COM.setDR(1);
+				COM.txBytes(&end,1);
+				break;
+			case THREE:
+				COM.setDR(2);
+				COM.txBytes(&end,1);
+				break;
+			case FOUR:
+				COM.setDR(3);
+				COM.txBytes(&end,1);
+				break;
+			case FIVE:
+				COM.setDR(4);
+				COM.txBytes(&end,1);
+				break;
+			case SIX:
+				COM.setDR(5);
+				COM.txBytes(&end,1);
+				break;
+			default:
+				break;
+		}			
 	}
 	
 	/* Declare global variables: */
 	int current_state = IDLE;
-	int prev_state = IDLE;
 	int prev_pressed, current_pressed;
 	String temp = "";
 	leds.reset();
@@ -126,99 +148,71 @@ int main (void){
                 if(keypad.is_pressed()){
                     // Toogle GREEN led to indicate POLLING:
                     leds.toogle(GREEN);
+					time = millis();
+					temp += current_pressed;
                     current_state = POLLING;
-                    prev_state = IDLE;
                 };
                 break;
 
             case POLLING:
-                // just started polling:
-                if(prev_state ==IDLE){
-                    // Start timer:
-                    time = millis();
-                    // Append the first number to string:
-                    if(keypad.is_pressed()){
-                        temp += current_pressed;
-                    };
-                    // Set prev state:
-                    prev_state = POLLING;
-                    break;
-                }
-                
-                else if(prev_state == POLLING){
-                    if (temp.length() >= 4 || (millis()-time) >= timeout){
-                        // A code has been entered or timeout:
-                        current_state = BUSY;
-                        break;
-                    }
-                    else if(keypad.is_pressed() && prev_pressed != current_pressed){
-                        // Reset timer:
-                        time = millis();
-                        temp += current_pressed;
-                    }
-
-                };
-                break;
+				if (temp.length() >= 4 || (millis()-time) >= timeout){
+					// A code has been entered or timeout:
+					current_state = BUSY;
+					break;
+					}
+				else if(keypad.is_pressed() && prev_pressed != current_pressed){
+					// Reset timer:
+					time = millis();
+					temp += current_pressed;
+					}
+				break;
 
 
             case BUSY:
-                    if(prev_state == POLLING){
-                        // If the length of entered code is 4, then check database:
-                        if(temp.length() == 4){
-                            // Check database:
-                            int num;
-                            //String answer = "59";
-                            printf("%s", temp.c_str());
-                            String answer = LoRa_send_receive(COM, temp);
-                            sscanf(answer.c_str(), "%X",&num);
-                            
-                            // 0x59 is hex for "Y":
-                            if(num == 0x59){
-                                leds.toogle(GREEN);
-                                leds.toogle(YELLOW);
-                                time = millis();
-                            }
-                            // Code is wrong:
-                            else{
-                                leds.toogle(YELLOW);
-                                leds.toogle(RED);
-                                time = millis();
-                            }
-                            prev_state = BUSY;
-                        }
-                        else{
-                            // timeout, Reset all:
-                            temp = ""; 
-                            leds.reset();
-                            leds.toogle(GREEN); 
-                            leds.toogle(YELLOW);
-                            current_state = IDLE;
-                            prev_state = BUSY;
-                        }
-                    }
-                    else if(prev_state == BUSY && (millis()-time)>5000){
-                        // Reset temp:
-                        temp = "";
-                        leds.reset();
-                        leds.toogle(GREEN); 
-                        leds.toogle(YELLOW);
-                        current_state = IDLE;
-                    }
-                break;
+				if(temp.length() == 4){
+					// Check database:
+					int num;
+					//String answer = "59";
+					printf("%s", temp.c_str());
+					String answer = LoRa_send_receive(COM, temp);
+					sscanf(answer.c_str(), "%X",&num);
+					
+					// 0x59 is hex for "Y":
+					if(num == 0x59){
+						leds.toogle(GREEN);
+						leds.toogle(YELLOW);
+						time = millis();
+					}
+					// Code is wrong:
+					else{
+						leds.toogle(YELLOW);
+						leds.toogle(RED);
+						time = millis();
+					}
+					while(!((millis()-time) > 5000));
+					// Reset:
+					temp = "";
+					leds.reset();
+					leds.toogle(GREEN);
+					leds.toogle(YELLOW);
+					current_state = IDLE;
+				}
+				else{
+					// timeout, Reset all:
+					temp = "";
+					leds.reset();
+					leds.toogle(GREEN);
+					leds.toogle(YELLOW);
+					current_state = IDLE;
+				}
 
-
-
-
+				break;
+			
             default:
                 break;
         }
         // Set previously pressed number:
         prev_pressed = keypad.get_value();
-		
-		
-		
-		
-		
 	}
 	
 }

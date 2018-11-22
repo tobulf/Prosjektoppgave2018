@@ -6,13 +6,14 @@ from threading import*
 from Logger import WriteMetaToFile
 import json
 
-access_key = "ttn-account-v2.aRPeVS4L6vmEoR-vTlcoIC9mfyOuAQBHLAPO6-1AL8c"
+access_key = "ttn-account-v2.uz4EG00rEfKFu25fa7to4_wsGAzxqfmLfYHoUz0GahM"
 app_id = "lorakeypad"
 
 Database = [7020, 2012, 7063, 7568 ,1569]
 Start_date = datetime.now()
 date = str(Start_date.day)+"." + str(Start_date.month)+"." + str(Start_date.year)
 
+mtx = Lock()
 
 
 
@@ -24,13 +25,15 @@ def check_code(code, list):
 
 
 def uplink_callback(msg, client):
-    global date, meta_test
+    global date, mtx
     print("Received uplink from ", msg.dev_id, datetime.now())
     #Convert received data to int:
     code = int.from_bytes(b64decode(msg.payload_raw), byteorder = 'big')
     meta = msg.metadata
     # Log the metadata to file.
+    mtx.acquire()
     WriteMetaToFile(msg.dev_id, meta, date)
+    mtx.release()
     # if it is bullshit value:
     if code == 2:
         pass
@@ -63,7 +66,9 @@ print(my_devices)
 while True:
     if(Start_date.day != datetime.now().day):
         Start_date = datetime.now()
+        mtx.acquire()
         date = str(Start_date.day)+"." + str(Start_date.month)+"." + str(Start_date.year)
+        mtx.release()
         print("New Day!")
     pass
 
