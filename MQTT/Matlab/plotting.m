@@ -152,7 +152,7 @@ ylabel('RSSI [dBm]')
 for n=1:6
     for i=1:6
         if (olav_num_array(i,n) > 0)
-            plot(n,olav_dr_set(i,2*n-1)/olav_num_array(n,i),'d','color',C{i},'linewidth',3);
+            plot(n,olav_dr_set(i,2*n-1)/olav_num_array(n,i),'mo','color',C{i},'linewidth',2);
         end
     end
 end
@@ -170,7 +170,7 @@ ylabel('SNR [dB]')
 for n=1:6
     for i=1:6
         if (olav_num_array(i,n) > 0)
-            plot(n,olav_dr_set(i,2*n)/olav_num_array(n,i),'d','color',C{i},'linewidth',3);
+            plot(n,olav_dr_set(i,2*n)/olav_num_array(n,i),'mo','color',C{i},'linewidth',2);
         end
     end
 end
@@ -188,7 +188,7 @@ ylabel('RSSI [dBm]')
 for n=1:6
     for i=1:6
         if (samf_num_array(i,n) > 0)
-            plot(samf_dist(n),samf_dr_set(i,2*n-1)/samf_num_array(n,i),'d','color',C{i},'linewidth',3);
+            plot(samf_dist(n),samf_dr_set(i,2*n-1)/samf_num_array(n,i),'mo','color',C{i},'linewidth',2);
         end
     end
 end
@@ -206,7 +206,7 @@ ylabel('SNR [dB]')
 for n=1:6
     for i=1:6
         if (samf_num_array(i,n) > 0)
-            plot(samf_dist(n),samf_dr_set(i,2*n)/samf_num_array(n,i),'d','color',C{i},'linewidth',3);
+            plot(samf_dist(n),samf_dr_set(i,2*n)/samf_num_array(n,i),'mo','color',C{i},'linewidth',2);
         end
     end
 end
@@ -224,7 +224,7 @@ ylabel('RSSI [dBm]')
 for n=1:6
     for i=1:6
         if (sluppen_num_array(i,n) > 0)
-            plot(sluppen_dist(n),sluppen_dr_set(i,2*n-1)/sluppen_num_array(n,i),'d','color',C{i},'linewidth',3);
+            plot(sluppen_dist(n),sluppen_dr_set(i,2*n-1)/sluppen_num_array(n,i),'mo','color',C{i},'linewidth',2);
         end
     end
 end
@@ -245,7 +245,7 @@ ylabel('SNR [dB]')
 for n=1:6
     for i=1:6
         if (sluppen_num_array(i,n) > 0)
-            plot(sluppen_dist(n),sluppen_dr_set(i,2*n)/sluppen_num_array(n,i),'d','color',C{i},'linewidth',3);
+            plot(sluppen_dist(n),sluppen_dr_set(i,2*n)/sluppen_num_array(n,i),'mo','color',C{i},'linewidth',2);
         end
     end
 end
@@ -257,7 +257,7 @@ figure(7)
 clear title xlabel ylabel
 clf
 hold on
-title('Mean RSSI in flat urban environment');
+title('Mean RSSI in flat urban environment, Samfundet-GW');
 xlabel('DR')
 ylabel('RSSI [dBm]')
 mean = 0;
@@ -265,7 +265,7 @@ set(gca,'xtick',0:6)
 set(gca,'xlim',[0,6])
 for i=1:6
     if (samf_num_array(5,i) > 0)
-        plot(i-1,samf_dr_set(i,9)/samf_num_array(5,i),'d','color',C{i},'linewidth',3);
+        plot(i-1,samf_dr_set(i,9)/samf_num_array(5,i),'mo','color',C{i},'linewidth',2);
         mean = mean + samf_dr_set(i,9)/samf_num_array(5,i);
     end
 end
@@ -278,7 +278,7 @@ figure(8)
 clear title xlabel ylabel
 clf
 hold on
-title('Mean SNR in flat urban environment');
+title('Mean SNR in flat urban environment, Samfundet-GW');
 xlabel('DR')
 ylabel('SNR [dB]')
 mean = 0;
@@ -286,7 +286,7 @@ set(gca,'xtick',0:6)
 set(gca,'xlim',[0,6])
 for i=1:6
     if (samf_num_array(5,i) > 0)
-        plot(i-1,samf_dr_set(i,10)/samf_num_array(5,i),'d','color',C{i},'linewidth',3);
+        plot(i-1,samf_dr_set(i,10)/samf_num_array(5,i),'mo','color',C{i},'linewidth',2);
         mean = mean + samf_dr_set(i,10)/samf_num_array(5,i);
     end
 end
@@ -297,11 +297,55 @@ legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'SF9@125KHz';'SF8@125KHz';'SF7
 
 
 
+figure(9)
+clear title xlabel ylabel
+clf
+hold on
+title('Mean RSSI in flat urban environment, Sluppen-GW');
+xlabel('DR')
+ylabel('RSSI [dBm]')
+mean = 0;
+set(gca,'xtick',0:6)
+set(gca,'xlim',[0,6])
+for i=1:6
+    if (sluppen_num_array(5,i) > 0)
+        plot(i-1,sluppen_dr_set(i,9)/sluppen_num_array(5,i),'mo','color',C{i},'linewidth',2);
+        mean = mean + sluppen_dr_set(i,9)/sluppen_num_array(5,i);
+    end
+end
+yline(mean/3);
+grid on
+legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'Mean'})
+
+
+figure(10)
+clear title xlabel ylabel
+clf
+hold on
+title('Mean SNR in flat urban environment, Sluppen-GW');
+xlabel('DR')
+ylabel('SNR [dB]')
+mean = 0;
+set(gca,'xtick',0:6)
+set(gca,'xlim',[0,6])
+for i=1:6
+    if (sluppen_num_array(5,i) > 0)
+        plot(i-1,sluppen_dr_set(i,10)/sluppen_num_array(5,i),'mo','color',C{i},'linewidth',2);
+        mean = mean + sluppen_dr_set(i,10)/sluppen_num_array(5,i);
+    end
+end
+yline(mean/3);
+grid on
+legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'Mean'})
+
+
+
+
 %% Plots for the mean on each test-site
 C = {'k','b','r','g','y',[.5 .6 .7],[.8 .2 .6]}; % Cell array of colros.
 
 
-figure(9)
+figure(11)
 clear title xlabel ylabel
 clf
 hold on
@@ -311,7 +355,7 @@ ylabel('RSSI [dBm]')
 for n=1:6
     for i=1:6
         if (tot_num_arr(i,n) > 0)
-           plot(tot_dist(n),mean_dr_set(i,2*n-1)/tot_num_arr(n,i),'d','color',C{i},'linewidth',3);
+           plot(tot_dist(n),mean_dr_set(i,2*n-1)/tot_num_arr(n,i),'mo','color',C{i},'linewidth',2);
         end
     end
 end
@@ -319,7 +363,7 @@ grid on
 legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'SF9@125KHz';'SF8@125KHz';'SF7@125KHz'})
 
 
-figure(10)
+figure(12)
 clear title xlabel ylabel
 clf
 hold on
@@ -329,7 +373,7 @@ ylabel('SNR [dB]')
 for n=1:6
     for i=1:6
         if (tot_num_arr(i,n) > 0)
-           plot(tot_dist(n),mean_dr_set(i,2*n)/tot_num_arr(n,i),'d','color',C{i},'linewidth',3);
+           plot(tot_dist(n),mean_dr_set(i,2*n)/tot_num_arr(n,i),'mo','color',C{i},'linewidth',2);
         end
     end
 end
@@ -337,7 +381,7 @@ grid on
 legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'SF9@125KHz';'SF8@125KHz';'SF7@125KHz'})
 
 
-figure(11)
+figure(13)
 clear title xlabel ylabel
 clf
 subplot(2,1,1)
@@ -350,7 +394,7 @@ set(gca,'xtick',0:6)
 set(gca,'xlim',[0,6])
 for i=1:6
     if (tot_num_arr(1,i) > 0)
-        plot(i-1,mean_dr_set(i,1)/tot_num_arr(1,i),'d','color',C{i},'linewidth',3);
+        plot(i-1,mean_dr_set(i,1)/tot_num_arr(1,i),'mo','color',C{i},'linewidth',2);
         mean = mean + mean_dr_set(i,1)/tot_num_arr(1,i);
     end
 end
@@ -369,7 +413,7 @@ set(gca,'xtick',0:6)
 set(gca,'xlim',[0,6])
 for i=1:6
     if (tot_num_arr(1,i) > 0)
-        plot(i-1,mean_dr_set(i,2)/tot_num_arr(1,i),'d','color',C{i},'linewidth',3);
+        plot(i-1,mean_dr_set(i,2)/tot_num_arr(1,i),'mo','color',C{i},'linewidth',2);
         mean = mean + mean_dr_set(i,2)/tot_num_arr(1,i);
     end
 end
@@ -378,7 +422,7 @@ grid on
 legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'SF9@125KHz';'SF8@125KHz';'SF7@125KHz';'Mean'})
 
 
-figure(12)
+figure(14)
 clear title xlabel ylabel
 clf
 subplot(2,1,1)
@@ -391,7 +435,7 @@ set(gca,'xtick',0:6)
 set(gca,'xlim',[0,6])
 for i=1:6
     if (tot_num_arr(2,i) > 0)
-        plot(i-1,mean_dr_set(i,3)/tot_num_arr(2,i),'d','color',C{i},'linewidth',3);
+        plot(i-1,mean_dr_set(i,3)/tot_num_arr(2,i),'mo','color',C{i},'linewidth',2);
         mean = mean + mean_dr_set(i,3)/tot_num_arr(2,i);
     end
 end
@@ -410,7 +454,7 @@ set(gca,'xtick',0:6)
 set(gca,'xlim',[0,6])
 for i=1:6
     if (tot_num_arr(2,i) > 0)
-        plot(i-1,mean_dr_set(i,4)/tot_num_arr(2,i),'d','color',C{i},'linewidth',3);
+        plot(i-1,mean_dr_set(i,4)/tot_num_arr(2,i),'mo','color',C{i},'linewidth',2);
         mean = mean + mean_dr_set(i,4)/tot_num_arr(2,i);
     end
 end
@@ -419,7 +463,7 @@ grid on
 legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'SF9@125KHz';'SF8@125KHz';'SF7@125KHz';'Mean'})
 
 
-figure(13)
+figure(15)
 clear title xlabel ylabel
 clf
 subplot(2,1,1)
@@ -432,7 +476,7 @@ set(gca,'xtick',0:6)
 set(gca,'xlim',[0,6])
 for i=1:6
     if (tot_num_arr(3,i) > 0)
-        plot(i-1,mean_dr_set(i,5)/tot_num_arr(3,i),'d','color',C{i},'linewidth',3);
+        plot(i-1,mean_dr_set(i,5)/tot_num_arr(3,i),'mo','color',C{i},'linewidth',2);
         mean = mean + mean_dr_set(i,5)/tot_num_arr(3,i);
     end
 end
@@ -451,7 +495,7 @@ set(gca,'xtick',0:6)
 set(gca,'xlim',[0,6])
 for i=1:6
     if (tot_num_arr(3,i) > 0)
-        plot(i-1,mean_dr_set(i,6)/tot_num_arr(3,i),'d','color',C{i},'linewidth',3);
+        plot(i-1,mean_dr_set(i,6)/tot_num_arr(3,i),'mo','color',C{i},'linewidth',2);
         mean = mean + mean_dr_set(i,6)/tot_num_arr(3,i);
     end
 end
@@ -460,7 +504,7 @@ grid on
 legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'SF9@125KHz';'SF8@125KHz';'SF7@125KHz';'Mean'})
 
 
-figure(14)
+figure(16)
 clear title xlabel ylabel
 clf
 subplot(2,1,1)
@@ -473,7 +517,7 @@ set(gca,'xtick',0:6)
 set(gca,'xlim',[0,6])
 for i=1:6
     if (tot_num_arr(4,i) > 0)
-        plot(i-1,mean_dr_set(i,7)/tot_num_arr(4,i),'d','color',C{i},'linewidth',3);
+        plot(i-1,mean_dr_set(i,7)/tot_num_arr(4,i),'mo','color',C{i},'linewidth',2);
         mean = mean + mean_dr_set(i,7)/tot_num_arr(4,i);
     end
 end
@@ -492,7 +536,7 @@ set(gca,'xtick',0:6)
 set(gca,'xlim',[0,6])
 for i=1:6
     if (tot_num_arr(4,i) > 0)
-        plot(i-1,mean_dr_set(i,8)/tot_num_arr(4,i),'d','color',C{i},'linewidth',3);
+        plot(i-1,mean_dr_set(i,8)/tot_num_arr(4,i),'mo','color',C{i},'linewidth',2);
         mean = mean + mean_dr_set(i,8)/tot_num_arr(4,i);
     end
 end
@@ -501,7 +545,7 @@ grid on
 legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'SF9@125KHz';'SF8@125KHz';'SF7@125KHz';'Mean'})
 
 
-figure(15)
+figure(17)
 clear title xlabel ylabel
 clf
 subplot(2,1,1)
@@ -514,7 +558,7 @@ set(gca,'xtick',0:6)
 set(gca,'xlim',[0,6])
 for i=1:6
     if (tot_num_arr(5,i) > 0)
-        plot(i-1,mean_dr_set(i,9)/tot_num_arr(5,i),'d','color',C{i},'linewidth',3);
+        plot(i-1,mean_dr_set(i,9)/tot_num_arr(5,i),'mo','color',C{i},'linewidth',2);
         mean = mean + mean_dr_set(i,9)/tot_num_arr(5,i);
     end
 end
@@ -532,7 +576,7 @@ set(gca,'xtick',0:6)
 set(gca,'xlim',[0,6])
 for i=1:6
     if (tot_num_arr(5,i) > 0)
-        plot(i-1,mean_dr_set(i,10)/tot_num_arr(5,i),'d','color',C{i},'linewidth',3);
+        plot(i-1,mean_dr_set(i,10)/tot_num_arr(5,i),'mo','color',C{i},'linewidth',2);
         mean = mean + mean_dr_set(i,10)/tot_num_arr(5,i);
     end
 end
@@ -542,7 +586,7 @@ legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'SF9@125KHz';'SF8@125KHz';'SF7
 
 
 
-figure(16)
+figure(18)
 
 clear title xlabel ylabel
 clf
@@ -556,7 +600,7 @@ set(gca,'xtick',0:6)
 set(gca,'xlim',[0,6])
 for i=1:6
     if (tot_num_arr(6,i) > 0)
-        plot(i-1,mean_dr_set(i,11)/tot_num_arr(6,i),'d','color',C{i},'linewidth',3);
+        plot(i-1,mean_dr_set(i,11)/tot_num_arr(6,i),'mo','color',C{i},'linewidth',2);
         mean = mean + mean_dr_set(i,11)/tot_num_arr(6,i);
     end
 end
@@ -576,7 +620,7 @@ set(gca,'xtick',0:6)
 set(gca,'xlim',[0,6])
 for i=1:6
     if (tot_num_arr(6,i) > 0)
-        plot(i-1,mean_dr_set(i,12)/tot_num_arr(6,i),'d','color',C{i},'linewidth',3);
+        plot(i-1,mean_dr_set(i,12)/tot_num_arr(6,i),'mo','color',C{i},'linewidth',2);
         mean = mean + mean_dr_set(i,12)/tot_num_arr(6,i);
     end
 end
