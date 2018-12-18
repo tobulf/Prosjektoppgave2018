@@ -252,10 +252,30 @@ end
 grid on
 legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'SF9@125KHz';'SF8@125KHz';'SF7@125KHz'})
 
-
+%% Flat Urban enviromment
 figure(7)
+
 clear title xlabel ylabel
 clf
+subplot(2,1,1)
+hold on
+title('Mean RSSI in flat urban environment, Sluppen-GW');
+xlabel('DR')
+ylabel('RSSI [dBm]')
+mean = 0;
+set(gca,'xtick',0:6)
+set(gca,'xlim',[0,6])
+for i=1:6
+    if (sluppen_num_array(5,i) > 0)
+        plot(i-1,sluppen_dr_set(i,9)/sluppen_num_array(5,i),'mo','color',C{i},'linewidth',2);
+        mean = mean + sluppen_dr_set(i,9)/sluppen_num_array(5,i);
+    end
+end
+yline(mean/3);
+grid on
+%legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'Mean'})
+
+subplot(2,1,2)
 hold on
 title('Mean RSSI in flat urban environment, Samfundet-GW');
 xlabel('DR')
@@ -274,9 +294,29 @@ grid on
 legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'SF9@125KHz';'SF8@125KHz';'SF7@125KHz';'Mean'})
 
 
+
 figure(8)
 clear title xlabel ylabel
 clf
+subplot(2,1,1)
+hold on
+title('Mean SNR in flat urban environment, Sluppen-GW');
+xlabel('DR')
+ylabel('SNR [dB]')
+mean = 0;
+set(gca,'xtick',0:6)
+set(gca,'xlim',[0,6])
+for i=1:6
+    if (sluppen_num_array(5,i) > 0)
+        plot(i-1,sluppen_dr_set(i,10)/sluppen_num_array(5,i),'mo','color',C{i},'linewidth',2);
+        mean = mean + sluppen_dr_set(i,10)/sluppen_num_array(5,i);
+    end
+end
+yline(mean/3);
+grid on
+%legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'Mean'})
+
+subplot(2,1,2)
 hold on
 title('Mean SNR in flat urban environment, Samfundet-GW');
 xlabel('DR')
@@ -297,46 +337,6 @@ legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'SF9@125KHz';'SF8@125KHz';'SF7
 
 
 
-figure(9)
-clear title xlabel ylabel
-clf
-hold on
-title('Mean RSSI in flat urban environment, Sluppen-GW');
-xlabel('DR')
-ylabel('RSSI [dBm]')
-mean = 0;
-set(gca,'xtick',0:6)
-set(gca,'xlim',[0,6])
-for i=1:6
-    if (sluppen_num_array(5,i) > 0)
-        plot(i-1,sluppen_dr_set(i,9)/sluppen_num_array(5,i),'mo','color',C{i},'linewidth',2);
-        mean = mean + sluppen_dr_set(i,9)/sluppen_num_array(5,i);
-    end
-end
-yline(mean/3);
-grid on
-legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'Mean'})
-
-
-figure(10)
-clear title xlabel ylabel
-clf
-hold on
-title('Mean SNR in flat urban environment, Sluppen-GW');
-xlabel('DR')
-ylabel('SNR [dB]')
-mean = 0;
-set(gca,'xtick',0:6)
-set(gca,'xlim',[0,6])
-for i=1:6
-    if (sluppen_num_array(5,i) > 0)
-        plot(i-1,sluppen_dr_set(i,10)/sluppen_num_array(5,i),'mo','color',C{i},'linewidth',2);
-        mean = mean + sluppen_dr_set(i,10)/sluppen_num_array(5,i);
-    end
-end
-yline(mean/3);
-grid on
-legend({'SF12@125KHz';'SF11@125KHz';'SF10@125KHz';'Mean'})
 
 
 

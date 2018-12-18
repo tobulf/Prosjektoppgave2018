@@ -5,9 +5,9 @@ import csv
 import dateutil.parser as dp
 
 
-current_directory = os.getcwd()
-Datarates = ["SF12BW125", "SF11BW125", "SF10BW125","SF9BW125", "SF8BW125", "SF7BW125"]
 
+Datarates = ["SF12BW125", "SF11BW125", "SF10BW125","SF9BW125", "SF8BW125", "SF7BW125"]
+current_directory = os.getcwd()
 
 def WriteMetaToFile(dev_id, Metadata, date):
     #Create directory for each day
@@ -15,11 +15,11 @@ def WriteMetaToFile(dev_id, Metadata, date):
     final_directory = os.path.join(current_directory, (r''+directory))
     if not os.path.exists(final_directory):
         os.makedirs(final_directory)
+
     for i in range(len(Metadata[6])):
         temp = list(Metadata[6][i])
         try:
             Log = open(directory+"/"+str(Metadata[6][i][0])+" "+date+".csv",'x')
-            wr = csv.writer(Log)
             wr = csv.writer(Log)
             # Convert Datarate to integer [0:5]:
             DR = Datarates.index(Metadata[3])
@@ -33,7 +33,7 @@ def WriteMetaToFile(dev_id, Metadata, date):
             # Save datarate timestamp RSSI and SNR 
             wr.writerows(temp1)
             Log.close()
-        except (OSError, FileExistsError) as error:
+        except FileExistsError:
             Log = open(directory+"/"+str(Metadata[6][i][0])+" "+date+".csv",'a')
             wr = csv.writer(Log)
             # Convert Datarate to integer [0:5]:
@@ -51,7 +51,7 @@ def WriteMetaToFile(dev_id, Metadata, date):
 
 
 
-'''
+
 some_date = "21.12.2018"
 #Metadata format:
 
@@ -65,4 +65,3 @@ meta = ["2018-11-08T11:41:52.772067729Z", 868.1, "LORA", "SF12BW125", 1155072000
 ]
 
 WriteMetaToFile("lorakeypad",meta, some_date)
-'''
