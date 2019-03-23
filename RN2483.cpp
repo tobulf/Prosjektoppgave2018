@@ -39,8 +39,11 @@ unsigned char* LoRa_COM::get_answer(void){
 	 uint8_t i = 0;
 	 /*receive bytes and put them in a string: */
 	 while( (byte = receive()) >= LF ){
-		 /*LF termination: */
-		if(byte == LF){
+		 //printf("%c",byte);
+		 /*CR+LF termination: */
+		if(byte == CR){
+			/*Empty the buffer before breaking.*/
+			byte = receive();
 			break;
 		}
 		/* Merge the bytes together to a string: */
@@ -48,7 +51,9 @@ unsigned char* LoRa_COM::get_answer(void){
 	};
 	/* insert NULL to terminate the string in C-Fashion: */
 	string[i] = '\0';
+	
 	return string;
+	
  };
 	
 	

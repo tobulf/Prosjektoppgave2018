@@ -60,9 +60,9 @@ int main (void){
 	while (true){
 		_delay_ms(1000);
 		fisk.send_command("sys get ver");
-		//unsigned char* answer = fisk.get_answer();
+		unsigned char* answer = fisk.get_answer();
 		printf("%s", answer);
-		//_delay_ms(1000);
+		_delay_ms(1000);
 		
 	}
 }
