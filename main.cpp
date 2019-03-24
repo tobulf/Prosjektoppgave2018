@@ -53,16 +53,24 @@ int fisk(int n, void(*f)(int)){
 
 
 int main (void){
-	USART_init();
+	//USART_init();
 	//RN2483 fisk;
-	LoRa_COM fisk;
-	fisk.send_command("sys reset");
+	//while (true){
+	//	//RN2483 fisk;
+	//	fisk.send_command("sys get ver");
+	//	unsigned char* answer = fisk.get_answer();
+	//	printf("%s", answer);
+	//	_delay_ms(1000);
+	//}
+	
+	
+	
+	USART_init();
+	RN2483 fisk;
 	while (true){
-		_delay_ms(1000);
-		fisk.send_command("sys get ver");
-		unsigned char* answer = fisk.get_answer();
-		printf("%s", answer);
+		bool something = fisk.init_OTAA(*appEui, *appKey);
 		_delay_ms(1000);
 		
 	}
+
 }

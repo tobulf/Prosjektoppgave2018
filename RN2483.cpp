@@ -17,6 +17,7 @@
 
 
 
+
 /* Declare different baudrates:*/
 #define LORA_BAUD 57600UL
 /* Declare UART Message terminators: */
@@ -91,8 +92,30 @@ LoRa_COM::LoRa_COM(){
 };
 
 
+bool RN2483::init_OTAA(char* app_EUI, char* app_key){
+	bool success = true;
+	/*Reset chip and set to 868.*/
+	send_command("mac reset 868");
+	
+	/*Set device EUI*/
+	send_command("sys get hweui");
+	unsigned char* devEui = get_answer();
+	send_command("mac set deveui");
+	send_command(devEui);
+	printf("%s",get_answer());
+	
+	
+	return success;
+} 
+
+unsigned char* RN2483::get_version(){
+	send_command("sys get ver");
+	return get_answer();
+}
 
 RN2483::RN2483(){
+		send_command("sys reset");
+		_delay_ms(500);
 }
 
 
