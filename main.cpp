@@ -16,6 +16,7 @@
 #include "Keypad.h"
 #include "LED_driver.h"
 #include "LoRa_cfg.h"
+#include "arduino/WString.h"
 
 
 
@@ -68,7 +69,7 @@ int main (void){
 	USART_init();
 	RN2483 fisk;
 	while (true){
-		bool something = fisk.init_OTAA(*appEui, *appKey);
+		bool something = fisk.init_OTAA(appEui, appKey);
 		_delay_ms(1000);
 		
 	}

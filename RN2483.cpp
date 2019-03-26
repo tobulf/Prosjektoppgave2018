@@ -1,18 +1,3 @@
-/*
- * RN2483.cpp
- *
- * Created: 12/25/2018 3:17:52 PM
- *  Author: tobul
- */ 
-
-
-/*
- * UARTdriver.cpp
- *
- * Created: 05.10.2018 18:13:16
- *  Author: tobiasu
- */ 
-
 #include "RN2483.h"
 
 
@@ -35,32 +20,34 @@ unsigned char LoRa_COM::receive(void){
 
 
 
-unsigned char* LoRa_COM::get_answer(void){
+String LoRa_COM::get_answer(void){
+	String received;
+	 unsigned char temp[10];
 	 unsigned char byte;
 	 uint8_t i = 0;
 	 /*receive bytes and put them in a string: */
 	 while( (byte = receive()) >= LF ){
 		 //printf("%c",byte);
 		 /*CR+LF termination: */
-		if(byte == CR){
-			/*Empty the buffer before breaking.*/
-			byte = receive();
-			break;
-		}
-		/* Merge the bytes together to a string: */
-		string[i++] = byte;
-	};
-	/* insert NULL to terminate the string in C-Fashion: */
-	string[i] = '\0';
-	
-	return string;
-	
+		 if(byte == CR){
+			 /*Empty the buffer before breaking.*/
+			 byte = receive();
+			 break;
+		 }
+		 /* Merge the bytes together to a string: */
+		 temp[i++] = byte;
+		 
+	 };
+	 /* insert NULL to terminate the string in C-Fashion: */
+	 temp[i] = '\0';
+	 
+	 return received;
  };
 	
 	
-void LoRa_COM::send_command(char* string){
-	for(; *string; ++string){
-		transmit(*string);
+void LoRa_COM::send_command(String command){
+	for(uint8_t i = 0; i < command.length();i++){
+		transmit(command[i]);
 	}
 	/*Terminate using CR-LF*/
 	transmit(CR);
@@ -92,23 +79,24 @@ LoRa_COM::LoRa_COM(){
 };
 
 
-bool RN2483::init_OTAA(char* app_EUI, char* app_key){
+bool RN2483::init_OTAA(String app_EUI, String app_key){
 	bool success = true;
 	/*Reset chip and set to 868.*/
-	send_command("mac reset 868");
-	
+	//send_command("mac reset 868");
+	_delay_ms(100);
 	/*Set device EUI*/
 	send_command("sys get hweui");
-	unsigned char* devEui = get_answer();
-	send_command("mac set deveui");
-	send_command(devEui);
-	printf("%s",get_answer());
+	String devEui = get_answer();
+	//send_command("mac set deveui "+devEui);
+	//send_command("mac set appeui "+app_EUI);
+	//printf("%s", get_answer());	
+
 	
 	
 	return success;
 } 
 
-unsigned char* RN2483::get_version(){
+String RN2483::get_version(){
 	send_command("sys get ver");
 	return get_answer();
 }
