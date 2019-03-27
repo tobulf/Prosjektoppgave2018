@@ -80,6 +80,14 @@ class RN2483: public LoRa_COM {
 	 */
 	String get_version(void);
 	/**
+	 * @brief asserts the response from the RN2483 chip, if invalid, returns false.
+	 * 
+	 * @param response 
+	 * @return true 
+	 * @return false 
+	 */
+	bool assert_response(String response);
+	/**
 	 * @brief Initialize over the air activation according to LoRa Standards.
 	 * 
 	 * @param app_EUI 
@@ -87,7 +95,23 @@ class RN2483: public LoRa_COM {
 	 * @return true 
 	 * @return false 
 	 */
-	bool init_OTAA(String app_EUI, String app_key); 
+	bool init_OTAA(String app_EUI, String app_key);
+	/**
+	 * @brief Set Datarate for the Transmission(0-5). SF12-SF7. 
+	 * 
+	 * @param DR 
+	 * @return true 
+	 * @return false 
+	 */
+	bool set_DR(uint8_t DR);
+	/**
+	 * @brief Set the size of receive window 1.
+	 * 
+	 * @param milliseconds 
+	 * @return true 
+	 * @return false 
+	 */
+	bool set_RX_window_size(uint16_t milliseconds);
 	private:
 };
 

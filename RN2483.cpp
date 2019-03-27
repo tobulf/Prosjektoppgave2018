@@ -21,32 +21,25 @@ unsigned char LoRa_COM::receive(void){
 
 
 String LoRa_COM::get_answer(void){
-	String received;
-	 unsigned char temp[10];
+	 String received;
 	 unsigned char byte;
-	 uint8_t i = 0;
 	 /*receive bytes and put them in a string: */
-	 while( (byte = receive()) >= LF ){
-		 //printf("%c",byte);
+	 while( (byte = receive()) >= LF){
 		 /*CR+LF termination: */
 		 if(byte == CR){
-			 /*Empty the buffer before breaking.*/
-			 byte = receive();
-			 break;
+		 	 /*Empty the buffer before breaking.*/
+		 	 byte = receive();
+		 	 break;
 		 }
 		 /* Merge the bytes together to a string: */
-		 temp[i++] = byte;
-		 
-	 };
-	 /* insert NULL to terminate the string in C-Fashion: */
-	 temp[i] = '\0';
-	 
+		 received.concat((char)byte);
+	 }; 
 	 return received;
  };
 	
 	
 void LoRa_COM::send_command(String command){
-	for(uint8_t i = 0; i < command.length();i++){
+	for(uint16_t i = 0; i < command.length();i++){
 		transmit(command[i]);
 	}
 	/*Terminate using CR-LF*/
@@ -78,33 +71,84 @@ LoRa_COM::LoRa_COM(){
 	UCSR0C = (1<<USBS)|(3<<UCSZ0);
 };
 
-
-bool RN2483::init_OTAA(String app_EUI, String app_key){
-	bool success = true;
-	/*Reset chip and set to 868.*/
-	//send_command("mac reset 868");
-	_delay_ms(100);
-	/*Set device EUI*/
-	send_command("sys get hweui");
-	String devEui = get_answer();
-	//send_command("mac set deveui "+devEui);
-	//send_command("mac set appeui "+app_EUI);
-	//printf("%s", get_answer());	
-
+RN2483::RN2483(){
+	send_command("sys reset");
+	/*Empty the buffer.*/
+	get_answer();
+	_delay_ms(500);
 	
-	
-	return success;
-} 
+}
+
 
 String RN2483::get_version(){
 	send_command("sys get ver");
 	return get_answer();
 }
 
-RN2483::RN2483(){
-		send_command("sys reset");
-		_delay_ms(500);
+
+bool RN2483::assert_response(String response){
+	if(response != String("ok")){
+		return false;
+	}
+	return true;
 }
+
+
+bool RN2483::init_OTAA(String app_EUI, String app_key){
+	bool success = true;
+	String answer;
+	/*Reset chip and set to 868.*/
+	send_command("mac reset 868");
+	if (!assert_response(get_answer())){return false;};
+	/*Get device EUI*/
+	send_command("sys get hweui");
+	answer = get_answer();
+	/*Set the device EUI*/
+	send_command(String("mac set deveui ")+=answer);
+	if (!assert_response(get_answer())){return false;};
+	/* Set the application EUI*/
+	send_command(String("mac set appeui ")+=app_EUI);
+	if (!assert_response(get_answer())){return false;};
+	/* Set Appkey.*/
+	send_command(String("mac set appkey ")+=app_key);
+	if (!assert_response(get_answer())){return false;};
+	/*Set powerindex to 1, for 863 MHz(0 for 433 MHz.)*/
+	send_command(String("mac set pwridx 1"));
+	if (!assert_response(get_answer())){return false;};
+	/* TTN does not support adaptive data-rate, thus it is turned off.*/
+	send_command(String("mac set adr off"));
+	if (!assert_response(get_answer())){return false;};
+	/*Save current settings on the RN2483.*/
+	send_command(String("mac save"));
+	if (!assert_response(get_answer())){return false;};
+	/* Try to join the a LoRa Network...*/
+	//If it fails, retry 3 times.
+	for(uint8_t i=0;i<3;i++){
+		send_command(String("mac join otaa"));
+		get_answer();
+		answer = get_answer();
+		if(answer != String("accepted")){
+			success = false;
+		}
+		else{
+			break;
+		}
+	}
+	return success;
+} 
+
+bool RN2483::set_DR(uint8_t DR){
+	send_command(String("mac set dr ")+=String(DR));
+	return assert_response(get_answer());
+}
+
+
+bool RN2483::set_RX_window_size(uint16_t milliseconds){
+	send_command(String("mac set rxdelay1 ")+=String(milliseconds));
+	return assert_response(get_answer());
+}
+
+
 
 
 

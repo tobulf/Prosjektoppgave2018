@@ -63,15 +63,13 @@ int main (void){
 	//	printf("%s", answer);
 	//	_delay_ms(1000);
 	//}
-	
-	
-	
+
 	USART_init();
 	RN2483 fisk;
+	//bool something = fisk.init_OTAA(appEui, appKey);
 	while (true){
-		bool something = fisk.init_OTAA(appEui, appKey);
-		_delay_ms(1000);
 		
+		_delay_ms(1000);
 	}
 
 }
