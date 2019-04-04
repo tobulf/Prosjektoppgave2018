@@ -148,7 +148,45 @@ bool RN2483::set_RX_window_size(uint16_t milliseconds){
 	return assert_response(get_answer());
 }
 
+String RN2483::char_to_hex(uint8_t character){
+	String hex_string;
+	uint8_t msb = character >> 4;
+	uint8_t lsb = character & 0x0f;
+	if (msb<=9){
+		hex_string.concat(msb);
+	}
+	else{
+		hex_string.concat((char)(msb+55));
+		
+	}
+	if (lsb<=9){
+		hex_string.concat(lsb);
+	}
+	else{
+		hex_string.concat((char)(lsb+55));
+	}
+	return hex_string;
+};
 
+
+String RN2483::TX_bytes(String data){
+	String hex_data;
+	for (uint8_t i; i < data.length(); i++){
+		hex_data.concat(char_to_hex(data[i]));
+	}
+	send_command(String("mac tx uncnf 1 ")+=hex_data);
+	String answer = get_answer();
+	while (!(answer.startsWith("mac_rx") ^ answer.startsWith("mac_tx"))){
+		bool value = !answer.startsWith("mac_rx") ^ !answer.startsWith("mac_tx");
+		answer = get_answer();
+		if(answer.startsWith("no_free")){
+			return String("no free channels");
+		}
+	}
+	return answer;
+};
+	
+	
 
 
 

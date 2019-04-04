@@ -112,7 +112,16 @@ class RN2483: public LoRa_COM {
 	 * @return false 
 	 */
 	bool set_RX_window_size(uint16_t milliseconds);
+	
+	
+	
+	
+	String TX_bytes(String bytes);
+	
+	String char_to_hex(uint8_t character);
 	private:
+	//Support functions:
+	
 };
 
 

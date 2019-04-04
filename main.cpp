@@ -66,9 +66,9 @@ int main (void){
 
 	USART_init();
 	RN2483 fisk;
-	//bool something = fisk.init_OTAA(appEui, appKey);
+	bool something = fisk.init_OTAA(appEui, appKey);
 	while (true){
-		
+		printf("%s\n", fisk.TX_bytes(String("7020")).c_str());
 		_delay_ms(1000);
 	}
 

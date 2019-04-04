@@ -28,9 +28,9 @@ def uplink_callback(msg, client):
     global date, mtx
     print("Received uplink from ", msg.dev_id, datetime.now())
     #Convert received data to int:
-    code = int.from_bytes(b64decode(msg.payload_raw), byteorder = 'big')
+    code = int(b64decode(msg.payload_raw))
     meta = msg.metadata
-    # Log the metadata to file.
+    # Log the metadata to file
     mtx.acquire()
     WriteMetaToFile(msg.dev_id, meta, date)
     mtx.release()
