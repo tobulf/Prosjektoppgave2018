@@ -169,18 +169,62 @@ String RN2483::char_to_hex(uint8_t character){
 };
 
 
-String RN2483::TX_bytes(String data){
+String RN2483::TX_bytes(String data, int port){
 	String hex_data;
 	for (uint8_t i; i < data.length(); i++){
 		hex_data.concat(char_to_hex(data[i]));
 	}
-	send_command(String("mac tx uncnf 1 ")+=hex_data);
+	send_command(String("mac tx uncnf ")+=String(port)+=String(" ")+=hex_data);
 	String answer = get_answer();
+	/*Assert if the command was ok. */
+	if (!assert_response(answer)) {
+		send_command(String("mac tx uncnf ")+=String(port)+=String(" ")+=hex_data);
+	}
+	/*Assert answer: */
+	answer = get_answer();
 	while (!(answer.startsWith("mac_rx") ^ answer.startsWith("mac_tx"))){
-		bool value = !answer.startsWith("mac_rx") ^ !answer.startsWith("mac_tx");
+		/**
+		 * \todo{What to return. can be something... or nothing. maybe internal variable is an option? or return NULL value if nothing?}
+		 * 
+		 */
 		answer = get_answer();
-		if(answer.startsWith("no_free")){
-			return String("no free channels");
+		switch (answer)
+		{
+			case answer.startsWith("not_join");
+				/* code */
+				break; 
+
+			case answer.startsWith("no_free"):
+				/* code */
+				break;
+
+			case answer.startsWith("silent"):
+				/* code */
+				break;
+
+			case answer.startsWith("frame_count"):
+				/* code */
+				break;
+		
+			case answer.startsWith("busy"):
+				/* code */
+				break;
+
+
+			case answer.startsWith("mac_paused"):
+				/* code */
+				break;
+
+			case answer.startsWith("invalid_data"):
+				/* code */
+				break;
+				
+			case answer.startsWith("mac_err"):
+				/* code */
+				break;
+
+			default:
+				break;
 		}
 	}
 	return answer;

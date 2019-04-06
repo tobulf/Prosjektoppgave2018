@@ -114,13 +114,26 @@ class RN2483: public LoRa_COM {
 	bool set_RX_window_size(uint16_t milliseconds);
 	
 	
+	/**
+	 * @brief Transmitt a String of data with a specific port(1-255).
+	 * 
+	 * @param data 
+	 * @param port
+	 * @return String 
+	 */
 	
+	String TX_bytes(String data, int port);
 	
-	String TX_bytes(String bytes);
-	
-	String char_to_hex(uint8_t character);
+
 	private:
-	//Support functions:
+	/**
+	 * @brief Support function, turns a char into a hex representation of the byte, in String format(ex: "A" = "41").
+	 * 
+	 * @param character 
+	 * @return String 
+	 */
+	String char_to_hex(uint8_t character);
+
 	
 };
 
